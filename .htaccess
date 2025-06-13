@@ -1,0 +1,32 @@
+RewriteEngine On
+RewriteBase /goldbook/
+
+# ------------------------------------------------------------------------------
+# 1. Skip redirection for AJAX requests to .php (preserve POST)
+# ------------------------------------------------------------------------------
+
+# If NOT an XMLHttpRequest (i.e., not AJAX), redirect .php URLs to clean URLs
+RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/goldbook/(.+)\.php\sHTTP
+RewriteRule ^ /goldbook/%1 [R=301,L]
+
+# ------------------------------------------------------------------------------
+# 2. Clean URLs for controller (e.g., /controller/login => /controller/login.php)
+# ------------------------------------------------------------------------------
+
+RewriteCond %{DOCUMENT_ROOT}/goldbook/controller/$1.php -f
+RewriteRule ^controller/([^/]+)$ controller/$1.php [L]
+
+# ------------------------------------------------------------------------------
+# 3. Clean URLs for view (e.g., /view/home => /view/home.php)
+# ------------------------------------------------------------------------------
+
+RewriteCond %{DOCUMENT_ROOT}/goldbook/view/$1.php -f
+RewriteRule ^view/([^/]+)$ view/$1.php [L]
+
+# ------------------------------------------------------------------------------
+# 4. Clean URLs for root-level PHP files (e.g., /dashboard => /dashboard.php)
+# ------------------------------------------------------------------------------
+
+RewriteCond %{DOCUMENT_ROOT}/goldbook/$1.php -f
+RewriteRule ^([^/]+)$ $1.php [L]
