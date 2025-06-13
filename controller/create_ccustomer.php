@@ -18,18 +18,20 @@ $required = [
     'aadhar_number', 'city', 'street', 'pincode', 'full_address'
 ];
 
-$missing = [];
-foreach ($required as $field) {
-    if (empty($_POST[$field])) {
-        $missing[] = $field;
-    }
-}
+print_r($_POST); // Debugging line to see the POST data
 
-if (!empty($missing)) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Missing fields', 'fields' => $missing]);
-    exit;
-}
+// $missing = [];
+// foreach ($required as $field) {
+//     if (empty($_POST[$field])) {
+//         $missing[] = $field;
+//     }
+// }
+
+// if (!empty($missing)) {
+//     http_response_code(400);
+//     echo json_encode(['error' => 'Missing fields', 'fields' => $missing]);
+//     exit;
+// }
 
 // Handle file uploads
 // $uploads_dir = __DIR__ . '/../uploads';
